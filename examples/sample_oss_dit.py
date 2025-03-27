@@ -127,9 +127,7 @@ def main(args):
     world_size = dist.get_world_size()
     local_rank = dist.get_rank()
     
-    # Figure out how many samples we need to generate on each GPU and how many iterations we need to run:
-    batch_size = 1 #args.num_fid_samples // args.num_classes
-    # assert args.num_fid_samples % args.num_classes == 0, "total_samples must be divisible by num_class"
+    batch_size = 1 
     assert args.num_classes % world_size == 0, "num_class must be divisible by world_size"
     iterations = int(args.num_classes // world_size)
     pbar = range(iterations)
@@ -231,7 +229,6 @@ if __name__ == "__main__":
     parser.add_argument("--vae",  type=str, choices=["ema", "mse"], default="ema")
     parser.add_argument("--sample-dir", type=str, default="samples")
     parser.add_argument("--folder_name", type=str, default="folder_name")
-    # parser.add_argument("--num-fid-samples", type=int, default=50_000)
     parser.add_argument("--image-size", type=int, choices=[256, 512], default=256)
     parser.add_argument("--num-classes", type=int, default=1000)
     parser.add_argument("--cfg-scale",  type=float, default=1.5)

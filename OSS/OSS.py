@@ -1,11 +1,9 @@
 import torch
 import numpy as np
 import logging
-import os
-import pickle
-import torch.distributed as dist
 
-from .utils import _broadcast_tensor, _extract_into_tensor
+
+from .utils import _broadcast_tensor
 
 def cal_medium(oss_steps_all):
     ave_steps = []
@@ -15,7 +13,6 @@ def cal_medium(oss_steps_all):
             l.append(oss_steps_all[i][k])
         l.sort()
         ave_steps.append((l[len(l)//2] + l[len(l)//2 - 1])//2)
-    # logging.info("ave steps:", ave_steps)
     return ave_steps
 
 
@@ -36,9 +33,6 @@ def infer_OSS(oss_steps, model, z, class_emb, device, renorm_flag=False, max_amp
     if model_kwargs is None:
         model_kwargs = {}
     
-
-
-
     for i in reversed(range(1,N+1)):
         logging.info(f"steps {i}")
         t = torch.ones((B,), device=device, dtype=torch.long) * oss_steps[i]
@@ -70,7 +64,6 @@ def infer_OSS(oss_steps, model, z, class_emb, device, renorm_flag=False, max_amp
 def search_OSS_video(model, z, batch_size, class_emb, device, teacher_steps=200, student_steps=5, norm=2, model_kwargs=None, frame_type="6", channel_type="4", random_channel=False, float32=True):
     # z [B,C.H,W]
     # model_kwargs doesn't contain class_embedding, which is another seperate input
-    # model input: (latent, time, class_embedding, **model_kwargs)
     # the class_embedding is the same for all the searching samples here.
     
     B = batch_size    
@@ -99,7 +92,6 @@ def search_OSS_video(model, z, batch_size, class_emb, device, teacher_steps=200,
         vt = model(z_tea, t, class_emb, model_kwargs)
         if float32:
             z_tea = z_tea.to(torch.float32)
-        # z_tea_x0 = z_tea + vt * (timesteps[0] - timesteps[i])
         z_tea = z_tea + vt * (timesteps[i-1] - timesteps[i])
         if float32:
             z_tea = z_tea.to(z.dtype)
@@ -108,7 +100,6 @@ def search_OSS_video(model, z, batch_size, class_emb, device, teacher_steps=200,
         traj_tea[i-1] = z_tea.clone() 
     
     
-    # return z_tea
     # solving dynamic programming
     all_steps = []
     
@@ -199,10 +190,7 @@ def search_OSS_video(model, z, batch_size, class_emb, device, teacher_steps=200,
         logging.info(final_step)
         all_steps.append(final_step[1:])
 
-    # if not ave:
     return all_steps[0]
-    # else:
-    #     return cal_medium(all_steps)
 
 
 
@@ -210,8 +198,6 @@ def search_OSS_video(model, z, batch_size, class_emb, device, teacher_steps=200,
 def search_OSS(model, z, batch_size, class_emb, device, teacher_steps=200, student_steps=5, model_kwargs=None):
     # z [B,C.H,W]
     # model_kwargs doesn't contain class_embedding, which is another seperate input
-    # 
-    # model input: (latent, time, class_embedding, **model_kwargs)
     # the class_embedding is the same for all the searching samples here.
     
     B = batch_size    
@@ -282,10 +268,7 @@ def search_OSS(model, z, batch_size, class_emb, device, teacher_steps=200, stude
         logging.info(final_step)
         all_steps.append(final_step[1:])
 
-    # if not ave:
     return all_steps
-    # else:
-    #     return cal_medium(all_steps)
 
 
 
@@ -294,8 +277,6 @@ def search_OSS(model, z, batch_size, class_emb, device, teacher_steps=200, stude
 def search_OSS_batch(model, z, batch_size, class_emb, device, teacher_steps=200, student_steps=5, model_kwargs=None):
     # z [B,C.H,W]
     # model_kwargs doesn't contain class_embedding, which is another seperate input
-    # 
-    # model input: (latent, time, class_embedding, **model_kwargs)
     # the class_embedding is the same for all the searching samples here.
     
     B = batch_size    
@@ -326,8 +307,6 @@ def search_OSS_batch(model, z, batch_size, class_emb, device, teacher_steps=200,
     t_in = torch.linspace(1, N, N, device=device).long()
     # solving dynamic programming
     all_steps = []
-    # with open(f'tmp_dir/steps_all_{dist.get_rank()}.pkl', 'wb') as f:
-    #     pickle.dump(all_steps, f)
     
     for i_batch in range(B): # process each image separately
         z_cur = z[i_batch].clone().unsqueeze(0)
@@ -373,6 +352,4 @@ def search_OSS_batch(model, z, batch_size, class_emb, device, teacher_steps=200,
         logging.info(final_step)
         all_steps.append(final_step[1:])
     
-    # with open(f'tmp_dir/steps_all_{dist.get_rank()}.pkl', 'wb') as f:
-    #     pickle.dump(all_steps, f)
     return all_steps

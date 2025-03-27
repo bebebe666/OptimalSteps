@@ -320,7 +320,7 @@ class SearchPipeline_Flux(FluxPipeline):
 
 
         # 5. Prepare timesteps
-        sigmas = np.linspace(1.0, 1 / num_inference_steps, num_inference_steps) # if sigmas is None else sigmas
+        sigmas = np.linspace(1.0, 1 / num_inference_steps, num_inference_steps)
         
         image_seq_len = latents.shape[1]
         mu = calculate_shift(
