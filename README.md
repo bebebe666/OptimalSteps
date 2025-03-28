@@ -1,4 +1,7 @@
 # Optimal Stepsize for Diffusion Sampling(OSS)
+
+[![arXiv](https://img.shields.io/badge/arXiv%20paper-2503.18948-b31b1b.svg)](https://arxiv.org/abs/2503.21774)&nbsp;
+
 Official PyTorch implementation for our paper **"Optimal Stepsize for Diffusion Sampling"**, a plug-and-play algorithm to search the optimal sampling stepsize in diffusion sampling.
 
   <p align="center">
