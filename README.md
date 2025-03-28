@@ -88,11 +88,14 @@ This codebase benefits from the solid prior works: [DiT](https://github.com/face
 
 If you find this project helpful for your research or use it in your own work, please cite our paper:
 ```bibtex
-@article{pei2025optimal,
-  title   = {Optimal Stepsize for Diffusion Sampling.},
-  author  = {Jianning Pei, Han Hu, Shuyang Gu},
-  journal = {arxiv},
-  year    = {2025}
+@misc{pei2025optimalstepsizediffusionsampling,
+      title={Optimal Stepsize for Diffusion Sampling}, 
+      author={Jianning Pei and Han Hu and Shuyang Gu},
+      year={2025},
+      eprint={2503.21774},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV},
+      url={https://arxiv.org/abs/2503.21774}, 
 }
 ```
 
