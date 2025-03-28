@@ -13,7 +13,7 @@ Official PyTorch implementation for our paper **[Optimal Stepsize for Diffusion 
 
 
 
-https://github.com/user-attachments/assets/295fce1e-28b6-417a-9f25-69dc1b3a3fb9
+https://github.com/user-attachments/assets/d903c467-7050-4e79-9659-47bb672f001c
 <p align="center">
     <em>Left to Right: Wan-100steps; Wan+OSS-20steps; Wan-20steps.</em>
 </p>
