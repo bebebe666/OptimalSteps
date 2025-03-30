@@ -57,7 +57,7 @@ Before using our algorithm, you need to wrap your diffusion model to a unified f
 - The output of the model should be the v-pred same as the Flow Matching.
 - The sampling trajectory should be straight, follows $x_j = x_i + v(t_j - t_i)$.
 
-You can refer to exampls we gave in the `model_wrap.py`.
+You can refer to examples we gave in the `model_wrap.py`.
 
 ### Searching
 We provide the searching functions as follows:
