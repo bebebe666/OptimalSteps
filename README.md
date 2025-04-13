@@ -17,7 +17,13 @@ https://github.com/user-attachments/assets/d903c467-7050-4e79-9659-47bb672f001c
 <p align="center">
     <em>Left to Right: Wan-100steps; Wan+OSS-20steps; Wan-20steps.</em>
 </p>
-    
+
+## :fire: Latest News!!
+
+* Apr 13, 2025: :clap: OSS is integrated into [ComfyUI](https://github.com/comfyanonymous/ComfyUI) as OptimalStepsScheduler! It supports the fast sampling of text-to-image model FLUX and text-to-video model Wan. Here, we give a comparision of FLUX workflow with 10 sampling steps:
+![pr](https://github.com/user-attachments/assets/3cd26404-3873-40a0-9773-3bddcdce6cb1)
+Here are the demo workflows for [FLUX-workflow](https://github.com/user-attachments/files/19720395/Flux-Dev-ComfyUI-Workflow.json)  and [Wan-workflow](https://github.com/user-attachments/files/19720398/text_to_video_wan.json). 10 steps for FLUX and 20 steps for Wan are highly recommended. More details are included in our pull request [here](https://github.com/comfyanonymous/ComfyUI/pull/7584).
+
 
 
 
